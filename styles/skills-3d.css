@@ -1,0 +1,25 @@
+.skills-cloud-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: rgba(30, 41, 59, 0.4);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.tagcloud-container {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--teal-400);
+}
+
+.tagcloud-item {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.tagcloud-item:hover {
+    color: var(--slate-50);
+}
