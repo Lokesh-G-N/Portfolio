@@ -1,0 +1,58 @@
+/* Hero Contact Hover Dropdown */
+.hero-contact-wrapper {
+    position: relative;
+    display: inline-flex;
+    /* Keep it inline with other buttons */
+}
+
+.hero-contact-options {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    /* Pill shape */
+    display: flex;
+    gap: 1.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 20;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    /* Prevent accidental clicks when hidden */
+}
+
+.hero-contact-wrapper:hover .hero-contact-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(15px);
+}
+
+/* Tiny arrow at top of tooltip */
+.hero-contact-options::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgba(45, 212, 191, 0.2);
+}
+
+.hero-contact-icon {
+    color: var(--slate-300);
+    font-size: 1.4rem;
+    transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-contact-icon:hover {
+    color: var(--teal-400);
+    transform: scale(1.2);
+}

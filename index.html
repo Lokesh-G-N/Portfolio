@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="./styles/skills-3d.css" />
   <link rel="stylesheet" href="./styles/skills-layout.css" />
   <link rel="stylesheet" href="./styles/projects-redesign.css" />
+  <link rel="stylesheet" href="./styles/hero-contact.css" />
 </head>
 
 <body>
@@ -32,7 +33,7 @@
       </button>
 
       <div class="nav-links">
-        <a href="#about" class="nav-link">About</a>
+        <!-- 'About' link removed as it's now part of Hero/Top -->
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#experience" class="nav-link">Experience</a>
@@ -44,85 +45,61 @@
   </nav>
 
   <main>
-    <!-- Hero Section -->
+    <!-- Hero Section (Merged with About) -->
     <section id="hero" class="hero">
       <div class="container hero-box">
         <div>
           <span class="hero-subtitle">Hi, my name is</span>
           <h1 class="hero-title">Lokesh G N.<br><span style="color: var(--slate-400);">I unlock insights from
               data.</span></h1>
-          <p class="hero-description">
-            M.Sc. Data Science student passionate about building intelligent systems.
-            Specializing in NLP, machine learning, and data visualization to solve real-world problems.
-          </p>
+
+          <!-- Merged About Content: Concise & Direct -->
+          <div class="hero-description"
+            style="text-align: justify; max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.8;">
+            <p style="margin-bottom: 1rem;">
+              I'm a Data Science graduate student at <strong>Coimbatore Institute of Technology</strong> (2022–Present).
+              My journey began with a curiosity about how data drives decisions, leading me to specialize in
+              <strong>Machine Learning</strong> and <strong>Natural Language Processing (NLP)</strong>.
+            </p>
+            <p>
+              I thrive on solving complex problems—from building conversational chatbots to analyzing market trends.
+              When I'm not coding, I lead team events and coordinate media relations, always bridging the gap between
+              technical insights and human stories.
+            </p>
+          </div>
+
           <div class="hero-cta">
             <a href="#projects" class="btn btn-primary">Check out my work</a>
-            <a href="#contact" class="btn btn-outline">Contact me</a>
+
+            <!-- Contact Button with Hover Options -->
+            <div class="hero-contact-wrapper">
+              <a href="#contact" class="btn btn-outline">Contact me</a>
+              <div class="hero-contact-options">
+                <a href="https://in.linkedin.com/in/lokesh-g-n-1b2a58339" target="_blank" class="hero-contact-icon"
+                  aria-label="LinkedIn">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/LokeshGN" target="_blank" class="hero-contact-icon" aria-label="GitHub">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:lokeshgn2.0@gmail.com" class="hero-contact-icon" aria-label="Email">
+                  <i class="fas fa-envelope"></i>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="animate-on-scroll">
-      <div class="container">
-        <div class="section-title">
-          <h2><span>01.</span> About Me</h2>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-text glass-card">
-            <p>
-              Hello! I'm Lokesh, a passionate Data Science graduate student at Coimbatore Institute of Technology.
-              My journey began with a curiosity about how data can influence decisions, which led me to dive deep into
-              the world of Machine Learning and Natural Language Processing.
-            </p>
-            <p>
-              I thrive on solving complex problems, from building conversational chatbots to analyzing market trends
-              using statistical methods. My academic background combined with hands-on project experience has equipped
-              me with a robust toolkit to tackle data challenges.
-            </p>
-            <p>
-              When I'm not coding or analyzing datasets, you can find me leading team events, editing videos for the
-              Literary Club, or coordinating media relations.
-            </p>
-
-            <div style="margin-top: 2rem;">
-              <h4 style="margin-bottom: 1rem; color: var(--teal-400);">Education</h4>
-              <ul style="list-style-type: none; padding: 0;">
-                <li style="margin-bottom: 0.5rem; display: flex; align-items: baseline; gap: 0.5rem;">
-                  <i class="fas fa-caret-right" style="color: var(--teal-500);"></i>
-                  <span><strong>M.Sc. Data Science</strong> - Coimbatore Institute of Technology (2022 – Present)</span>
-                </li>
-                <li style="margin-bottom: 0.5rem; display: flex; align-items: baseline; gap: 0.5rem;">
-                  <i class="fas fa-caret-right" style="color: var(--teal-500);"></i>
-                  <span><strong>HSC</strong> - PSG Public Schools (2021 – 2022)</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="about-stats">
-            <div class="stat-item hover-float">
-              <span class="stat-number">3+</span>
-              <span>Major Projects</span>
-            </div>
-            <div class="stat-item hover-float">
-              <span class="stat-number">4</span>
-              <span>Hackathon Wins</span>
-            </div>
-            <div class="stat-item hover-float">
-              <span class="stat-number">5+</span>
-              <span>Tech Stack</span>
-            </div>
-            <div class="stat-item hover-float">
-              <span class="stat-number">3</span>
-              <span>Club Roles</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- About Section Removed -->
+    <!-- Education has been briefly mentioned in Hero, full details in Experience/Resume if needed. 
+         Wait, user might want Education explicitly still? 
+         "add [About] in the top itself" implies the text. 
+         The "Stats" (hackathon wins etc) are also in About. 
+         I should probably move Stats to Hero or a small banner below Hero?
+         User said "dont want unnecessary details". Stats might be unnecessary clutter for them?
+         I will stick to the text integration for now. -->
 
     <!-- Skills Section -->
     <section id="skills" class="animate-on-scroll">
