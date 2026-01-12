@@ -3,6 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   root: '.',
+  base: './', // Ensure relative paths for assets (fixes GitHub Pages 404s)
   build: {
     outDir: 'dist',
     rollupOptions: {
