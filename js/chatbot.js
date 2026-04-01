@@ -93,7 +93,7 @@ class PortfolioChatbot {
 
   addMessage(text, sender) {
     const msgDiv = document.createElement('div');
-    msgDiv.className = \`chat-message \${sender}\`;
+    msgDiv.className = `chat-message ${sender}`;
     
     let formattedText = text;
     if (sender === 'bot') {
@@ -166,7 +166,7 @@ class PortfolioChatbot {
   }
 
   async queryAIStream(prompt, onChunk) {
-    const systemPrompt = \`You are an AI assistant for Lokesh G N's portfolio website. 
+    const systemPrompt = `You are an AI assistant for Lokesh G N's portfolio website. 
 You are very polite, helpful, and friendly. You must NEVER be commanding or rude. 
 Your tone should be professional yet warm. Keep answers relatively concise.
 
@@ -175,9 +175,9 @@ Do NOT hallucinate or make up any information. If you don't know the answer or t
 
 Here is all the text extracted from Lokesh's portfolio website to serve as your knowledge base. Read it carefully.
 """
-\${this.contextText}
+${this.contextText}
 """
-\`;
+`;
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -198,7 +198,7 @@ Here is all the text extracted from Lokesh's portfolio website to serve as your 
     });
 
     if (!response.ok) {
-      throw new Error(\`HTTP error! status: \${response.status}\`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const reader = response.body.getReader();
@@ -210,7 +210,7 @@ Here is all the text extracted from Lokesh's portfolio website to serve as your 
         if (done) break;
         
         const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\\n').filter(line => line.trim() !== '');
+        const lines = chunk.split('\n').filter(line => line.trim() !== '');
         
         for (const line of lines) {
           if (line === 'data: [DONE]') continue;
