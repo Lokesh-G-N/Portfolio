@@ -187,7 +187,7 @@ ${this.contextText}
     const response = await fetch(this.apiUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify({
         model: 'openai', 
