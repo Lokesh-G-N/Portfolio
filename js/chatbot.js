@@ -1,9 +1,8 @@
-// Chatbot logic using Ollama local API
+// Chatbot logic using Cloud AI (Pollinations AI) so visitors don't need a local backend
 
 class PortfolioChatbot {
   constructor() {
-    this.model = 'llama3'; // Default ollama model
-    this.apiUrl = 'http://localhost:11434/api/chat';
+    this.apiUrl = 'https://text.pollinations.ai/openai';
     this.contextText = '';
     this.isOpen = false;
     this.isGenerating = false;
@@ -17,7 +16,7 @@ class PortfolioChatbot {
     this.injectHTML();
     this.attachEventListeners();
     
-    const welcomeMsg = "Hi! I'm Lokesh's AI assistant. I'm running locally via Ollama! Ask me anything about his projects, skills, or experience.";
+    const welcomeMsg = "Hi! I'm Lokesh's AI assistant. Ask me anything about his projects, skills, or experience!";
     this.addMessage(welcomeMsg, 'bot');
   }
 
@@ -43,10 +42,6 @@ class PortfolioChatbot {
           <button class="chatbot-close" id="chatbot-close" aria-label="Close Chat">
             <i class="fas fa-times"></i>
           </button>
-        </div>
-        <div class="chatbot-model-settings">
-          <label for="chatbot-model">Ollama Model:</label>
-          <input type="text" id="chatbot-model" class="chatbot-model-input" value="llama3" placeholder="e.g. llama3" title="Specify the local Ollama model to use" />
         </div>
         <div class="chatbot-messages" id="chatbot-messages">
           <div class="chatbot-loading" id="chatbot-loading">
@@ -74,7 +69,6 @@ class PortfolioChatbot {
     this.input = document.getElementById('chatbot-input');
     this.sendBtn = document.getElementById('chatbot-send');
     this.loadingIndicator = document.getElementById('chatbot-loading');
-    this.modelInput = document.getElementById('chatbot-model');
   }
 
   attachEventListeners() {
@@ -84,12 +78,6 @@ class PortfolioChatbot {
     this.sendBtn.addEventListener('click', () => this.handleSend());
     this.input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') this.handleSend();
-    });
-    
-    this.modelInput.addEventListener('change', (e) => {
-      if(e.target.value.trim() !== '') {
-        this.model = e.target.value.trim();
-      }
     });
   }
 
@@ -105,28 +93,21 @@ class PortfolioChatbot {
 
   addMessage(text, sender) {
     const msgDiv = document.createElement('div');
-    msgDiv.className = `chat-message ${sender}`;
+    msgDiv.className = \`chat-message \${sender}\`;
     
     let formattedText = text;
     if (sender === 'bot') {
-       // Only escape HTML characters if it's bot to prevent innerHTML issues but keep formatting 
        formattedText = formattedText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-       // Basic markdown styling for bot
        formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
        formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
        formattedText = formattedText.replace(/\n/g, '<br>');
     } else {
-       // Just escape for user
        formattedText = formattedText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
     
     msgDiv.innerHTML = formattedText;
     this.messagesContainer.insertBefore(msgDiv, this.loadingIndicator);
     this.scrollToBottom();
-  }
-
-  scrollToBottom() {
-    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
   }
 
   updateBotMessage(msgDiv, text) {
@@ -138,6 +119,10 @@ class PortfolioChatbot {
     
     msgDiv.innerHTML = formattedText;
     this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
   }
 
   async handleSend() {
@@ -159,7 +144,7 @@ class PortfolioChatbot {
       
       let fullResponse = "";
       
-      await this.queryOllamaStream(text, (chunk) => {
+      await this.queryAIStream(text, (chunk) => {
         if (this.loadingIndicator.style.display !== 'none') {
            this.loadingIndicator.style.display = 'none';
         }
@@ -172,10 +157,7 @@ class PortfolioChatbot {
       console.error('Chatbot error:', error);
       this.loadingIndicator.style.display = 'none';
       
-      let errorMessage = "I'm having trouble connecting to my brain. Please make sure Ollama is running locally.";
-      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-         errorMessage = "Cannot connect to Ollama. As this is a web app, please ensure your local Ollama is running on port 11434, and you have set **OLLAMA_ORIGINS='*'** to allow CORS requests from this webpage. **If you deploy this to Netlify**, anyone visiting the site will also need to have Ollama running locally.";
-      }
+      let errorMessage = "I'm having trouble connecting to my brain. Please try again later.";
       this.addMessage(errorMessage, 'bot');
     } finally {
       this.isGenerating = false;
@@ -183,8 +165,8 @@ class PortfolioChatbot {
     }
   }
 
-  async queryOllamaStream(prompt, onChunk) {
-    const systemPrompt = `You are an AI assistant for Lokesh G N's portfolio website. 
+  async queryAIStream(prompt, onChunk) {
+    const systemPrompt = \`You are an AI assistant for Lokesh G N's portfolio website. 
 You are very polite, helpful, and friendly. You must NEVER be commanding or rude. 
 Your tone should be professional yet warm. Keep answers relatively concise.
 
@@ -193,9 +175,9 @@ Do NOT hallucinate or make up any information. If you don't know the answer or t
 
 Here is all the text extracted from Lokesh's portfolio website to serve as your knowledge base. Read it carefully.
 """
-${this.contextText}
+\${this.contextText}
 """
-`;
+\`;
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -208,17 +190,15 @@ ${this.contextText}
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: this.model,
+        model: 'openai', 
         messages: messages,
         stream: true,
-        options: {
-          temperature: 0.1 
-        }
+        temperature: 0.1 
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(\`HTTP error! status: \${response.status}\`);
     }
 
     const reader = response.body.getReader();
@@ -230,16 +210,20 @@ ${this.contextText}
         if (done) break;
         
         const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+        const lines = chunk.split('\\n').filter(line => line.trim() !== '');
         
         for (const line of lines) {
-          try {
-            const parsed = JSON.parse(line);
-            if (parsed.message && parsed.message.content) {
-              onChunk(parsed.message.content);
+          if (line === 'data: [DONE]') continue;
+          if (line.startsWith('data: ')) {
+            const dataStr = line.replace('data: ', '');
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.choices && parsed.choices[0].delta && parsed.choices[0].delta.content) {
+                onChunk(parsed.choices[0].delta.content);
+              }
+            } catch (e) {
+              console.warn('Error parsing JSON chunk:', e);
             }
-          } catch (e) {
-            console.warn('Error parsing JSON chunk:', e);
           }
         }
       }
